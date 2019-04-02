@@ -1,0 +1,46 @@
+<html>
+<head>
+<style text="css">
+  .grid {
+    box-sizing: border-box;
+  }
+
+  .row {
+    display: flex;
+    padding: 0 4px;
+  }
+
+  .column {
+    flex: 33%;
+    max-width: 33%;
+    padding: 0 4px;
+  }
+
+  img {
+    border: 7px solid black;
+  }
+
+  </style>
+</head>
+<body>
+<div class="grid">
+<div class= "row">
+  <div class= "column">
+    <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[0].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+    <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[3].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+    </div>
+  <div class= "column">
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[1].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[4].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[6].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+  </div>
+  <div class= "column">
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[2].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[5].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+      <a href="{{googlePhotos[0].link}}"><img src = "{{googlePhotos[7].link}}" style="width: 100%; margin: 7px;" onerror="this.style.display='none'"></a>
+  </div>
+  </div>
+
+  </div>
+  </body>
+  </html>

@@ -1,0 +1,50 @@
+<div style=" background-color: 	#202028; color: white; padding: 15px; text-align: center; "><b>{{seln}}</b></div>
+<table class="table table-striped table-dark table-hover">
+    <tr *ngFor="let sd of sellerInfo;">
+
+        <th>{{sd.key}}</th>
+
+        <div *ngIf="sd.key == 'Feedback Score'; then feedbackscore"></div>
+        <ng-template #feedbackscore>
+            <td><div>{{sd.value}}</div></td>
+        </ng-template>
+
+        <div *ngIf="sd.key == 'Popularity'; then popularity"></div>
+        <ng-template #popularity>
+            <td>
+              <div class="progress-content" style="position: relative;">
+                <div class="currentValue" style="position: absolute; color: white; line-height: 2.75; padding-left:6px;">{{sd.value}}</div>
+                <round-progress [current]="sd.value" [max]="100" [color]="'green'" [radius]="22" [stroke]="2">
+                </round-progress>
+              </div>
+            </td>
+        </ng-template>
+
+        <div *ngIf="sd.key == 'Feedback Rating Star'; then ratingstar"></div>
+        <ng-template #ratingstar>
+            <td><div><i class="material-icons md-48" [style.color]="sd.value" style="vertical-align:middle; font-size: 35px;">{{starImage}}</i> </div></td>
+        </ng-template>
+
+        <div *ngIf="sd.key == 'Top Rated'; then toprated"></div>
+        <ng-template #toprated>
+        <div *ngIf="sd.value; then right else wrong">
+          </div>
+          <ng-template #right>
+              <td><i class="material-icons" style="color: green">done</i></td>
+          </ng-template>
+          <ng-template #wrong>
+              <td><i class="material-icons" style="color: red">clear</i></td>
+          </ng-template>
+        </ng-template>
+
+        <div *ngIf="sd.key == 'Store Name'; then storename"></div>
+        <ng-template #storename>
+            <td><div>{{sd.value}}</div></td>
+        </ng-template>
+
+        <div *ngIf="sd.key == 'Buy Product At'; then buyproduct"></div>
+        <ng-template #buyproduct>
+            <td><div><a style="color: teal;" href="{{sd.value}}">Store</a></div></td>
+        </ng-template>
+    </tr>
+</table>

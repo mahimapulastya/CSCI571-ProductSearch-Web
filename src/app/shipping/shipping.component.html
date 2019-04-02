@@ -1,0 +1,23 @@
+
+<table class="table table-striped table-dark table-hover">
+    <tr *ngFor="let sd of shippingDetails;">
+        <th>{{sd.key}}</th>
+          <div *ngIf="isString(sd.value); then typetext else rightwrong">
+          </div>
+          <ng-template #typetext>
+            <td><div>{{sd.value}}</div></td>
+          </ng-template>
+
+
+          <ng-template #rightwrong>
+            <div *ngIf="isBoolean(sd.value) && sd.value; then right else wrong">
+            </div>
+            <ng-template #right>
+                <td><i class="material-icons" style="color: green">done</i></td>
+            </ng-template>
+            <ng-template #wrong>
+                <td><i class="material-icons" style="color:red">clear</i></td>
+            </ng-template>
+        </ng-template>
+    </tr>
+</table>

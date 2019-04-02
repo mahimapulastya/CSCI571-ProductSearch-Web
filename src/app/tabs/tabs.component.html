@@ -1,0 +1,32 @@
+
+<html>
+  <head>
+      <style type="text/css">
+        .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:focus{
+            color: white;
+            background-color:#1a1a1a;
+        }
+
+        .black-text {
+          color: black;
+        }
+        </style>
+  </head>
+    <body>
+<div>
+  <nav>
+    <ul class="nav nav-tabs justify-content-end" >
+      <li *ngFor= "let tabItem of tabItems" class="nav-item" [class.active]="tabItem.isSelected">
+        <a class="nav-link black-text" (click)= "onTabClicked(tabItem)" href="#">{{tabItem.text}}</a>
+      </li>
+    </ul>
+    </nav>
+    <div class="tab-content">
+      <div>
+      <ng-template appTabs></ng-template>
+      </div>
+  </div>
+  </div>
+</body>
+</html>

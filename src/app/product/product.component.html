@@ -1,0 +1,123 @@
+<html>
+<head>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+  <style text = "css">
+    .backdrop {
+    background-color:rgba(0,0,0,0.6);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+  }
+  img {
+   border:7px solid black;
+    vertical-align: middle;
+  }
+    </style>
+</head>
+<body>
+<table class="table table-striped table-dark table-hover">
+        <tr>
+            <th>Product Images</th>
+            <td (click)="openModalDialog()" style="color: teal; cursor: pointer;">View Product Images Here</td>
+        </tr>
+        <tr>
+          <td>Subtitle</td>
+
+        </tr>
+
+        <tr>
+            <td>Price</td>
+            <td>Hello World Hello World Hello World Hello World Hello World Hello World</td>
+        </tr>
+
+        <tr>
+            <td>Location</td>
+
+        </tr>
+        <tr>
+            <td>Return Policy</td>
+          </tr>
+
+        <tr *ngFor="let nv of nameValue;">
+            <th>{{nv.name}}</th>
+            <td>{{nv.value}}</td>
+        </tr>
+</table>
+
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+
+
+<div class="modal modal-fullscreen force-fullscreen" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <div><b>Product Images</b></div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span aria-hidden="true">&times;</span></button>
+      </div>
+
+      <div class="modal-body">
+          <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="http://placehold.it/1200x675/333333/FFFFFF&text=First+slide" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="http://placehold.it/1200x675/333333/FFFFFF&text=Second+slide" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="http://placehold.it/1200x675/333333/FFFFFF&text=Third+slide" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div> -->
+
+            <!-- <div id="demo" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <a href={{images[0]}} target="_blank">
+                      <img src="{{images[0]}}" >
+                    </a>
+                  </div>
+                  <ng-container *ngFor="let image of images; let j = index">
+                  <ng-container *ngIf="j!=0">
+                      <div class="carousel-item">
+                        <a href={{image}} target="_blank">
+                          <img src="{{image}}" style="width:100%">
+                        </a>
+                        </div>
+                  </ng-container>
+                  </ng-container>
+                </div>
+                <ng-container *ngIf="images.length!=1">
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                  <span class="carousel-control-prev-icon" style="background-color:black"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                  <span class="carousel-control-next-icon" style="background-color:black"></span>
+                </a>
+              </ng-container>
+              </div> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModalDialog()" >Close</button>
+      </div>
+
+    </div>
+    </div>
+    </div>
+
+  </body>
+</html>
+

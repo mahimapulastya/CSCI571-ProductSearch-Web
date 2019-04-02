@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Homework 8</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"  crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"  crossorigin="anonymous"></script> -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+<style type="text/css">
+    .product-search {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .form-group.asterisk .keyword-label:after {
+    content:"*";
+    color:red;
+    }
+
+    .searchbutton {
+        color: black;
+        background: white;
+        display: inline;
+        align-items: center;
+        margin: 12px 50px 12px 0px;
+    }
+
+    input.ng-invalid.ng-touched {
+    border: 1px solid red;
+   }
+
+
+    input[type="checkbox"] {
+    margin-right: 5px;
+    margin-left: 5px;
+    }
+
+    input[type="radio"]  {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+
+    .align-middle {
+        vertical-align: middle;
+    }
+
+    body {
+      width: 80%;
+      margin: auto;
+    }
+
+</style>
+</head>
+<body>
+<div style="color:white; background: #171702;">
+  <hr><h2  class="product-search">Product Search</h2><hr>
+<form  [formGroup]="userForm" name = "form" (ngSubmit)= "onSubmit()" class="container" #formData="ngForm" >
+  <div class="form-group asterisk row">
+    <div class="col-md-2 col-sm-2"></div>
+    <label class="col-md-2 col-xs-2 keyword-label control-label"  for="keyword" >Keyword</label>
+    <div class="col-md-6 col-sm-6">
+    <input class="form-control-sm" class="form-control" type="text" formControlName = "keyword" name= "keyword" [ngClass] = "{'is-invalid': userForm.get('keyword').touched && userForm.get('keyword').invalid }"  placeholder="Enter Product Name (eg. iPhone 8)">
+    <div *ngIf ="userForm.get('keyword').hasError('required')" class="invalid-feedback">
+        Please enter a keyword.
+      </div>
+  </div>
+
+    <div class="col-md-2 col-sm-2"></div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2 col-sm-2"></div>
+    <label class="col-md-2 col-xs-2 col-form-label" for="category">Category</label>
+    <div class="col-md-6 col-sm-6">
+    <select class="col-md-6 col-xs-6 form-control" id="categoryselect" name="categoryselect" formControlName = "categoryselect" >
+      <option value="">All categories</option>
+      <option value="550">Art</option>
+      <option value="2984">Baby</option>
+      <option value="267">Books</option>
+      <option value="11450">Clothing, Shoes & Accessories</option>
+      <option value="58058">Computers/Tablets & Networking</option>
+      <option value="26395">Health & Beauty</option>
+      <option value="11233">Music</option>
+      <option value="1249">Video Games & Consoles</option>
+    </select>
+  </div>
+</div>
+
+  <div class="form-group row" >
+    <div class="col-md-2 col-sm-2"></div>
+   <label class="col-md-2 col-xs-2" for="condition">Condition</label>
+   <div class="col-md-6 col-sm-6">
+    <label class="checkbox-inline">
+      <input type="checkbox" formControlName="newCategory"  value="new">New
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" formControlName="usedCategory"   value="used">Used
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" formControlName="unspecifiedCategory"  value="unspecified">Unspecified
+    </label>
+    </div>
+  </div>
+
+  <div class="form-group row" >
+    <div class="col-md-2 col-sm-2"></div>
+   <label class="col-md-2 col-xs-2" for="shipingoptions">Shipping Options</label>
+   <div class="col-md-6 col-sm-6">
+    <label class="checkbox-inline">
+      <input type="checkbox" formControlName="localpickup"  value="localpickup">Local Pickup
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox"  formControlName="freeshipping" value="freeshipping">Free Shipping
+    </label>
+  </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-2 col-sm-2"></div>
+    <label class="col-md-2 col-xs-2 keyword-label" for="distance" >Distance(Miles)</label>
+    <div class="col-md-2 col-sm-2">
+    <input class="form-control-sm" type="number" class="form-control" id="distance" [(ngModel)]="distance"
+    [ngModelOptions]="{standalone:true}" placeholder="10">
+    </div>
+  </div>
+
+  <div class="form-group row asterisk">
+      <div class="col-md-2 col-sm-2"></div>
+      <label class="col-md-2 col-xs-2 keyword-label" for="distance" >From</label>
+      <div class="col-md-6 col-sm-6">
+          <div class="radio">
+          <label><input type="radio" name="curr-loc" checked>Current Location</label>
+          </div>
+          <div class="radio">
+          <label><input type="radio" name="curr-loc">Other. Please specify zip code:</label>
+          </div>
+
+          <input class="col-md-6 col-xs-6 form-control-sm" type="text" formControlName = "zipcode" pattern="^\d{5}(-\d{4})?$" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let zip of products.postalCodes" [value]="zip.postalCode">{{zip.postalCode}}</mat-option>
+            </mat-autocomplete>
+
+          <div *ngIf ="userForm.get('zipcode').hasError('required')" class="invalid-feedback">
+              Please enter a zipcode.
+            </div>
+          <div class="invalid-feedback" *ngIf="userForm.get('zipcode').touched && userForm.get('zipcode').hasError('pattern')" style="display: none">Invalid zipcode</div>
+        </div>
+      </div>
+
+  <div class="row">
+    <div class="col-md-2 col-sm-2"></div>
+    <div class="col-md-4">
+        <button type = "submit" class="btn btn-default searchbutton" [disabled] = "!userForm.valid"><i class="material-icons align-middle">search</i> Search</button>
+        <button type = "reset" (click)="clear();" class="btn btn-default searchbutton"><i class="material-icons align-middle">clear_all</i> Clear</button>
+      </div>
+ </div>
+</form>
+</div>
+<div style="height:15px;"></div>
+ <ul class="nav nav-pills justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" id = "results" style="background-color: black; color: white" (click)= "switchToResult();" href="#">Results</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id = "wishlist" href="#" style="color: black;" (click)= "switchToWishList();">Wish List</a>
+  </li>
+</ul>
+ <div *ngIf="showProgressBar" class="progress" >
+    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+  <app-result-section [distance]="distance"></app-result-section>
+</body>
+</html>

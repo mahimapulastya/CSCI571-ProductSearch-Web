@@ -1,0 +1,57 @@
+
+<html>
+<body>
+
+    <div *ngIf="noResults" id="noResult">
+      <div style="height: 70px;"></div>
+        <div class="alert alert-warning" role="alert">
+            No Records.
+        </div>
+    </div>
+
+  <div *ngIf="!noResults" id="similarResult">
+    <div class="row">
+        <div style="margin: 10px;">
+            <select class="custom-select mr-sm-2" [value]='0' [(ngModel)]="orderType" (change)="selectOrderType();" >
+                <option  value="0">Default</option>
+                <option value="1">Product Name</option>
+                <option value="2">Days Left</option>
+                <option value="3">Price</option>
+                <option value="4">Shipping Cost</option>
+            </select>
+      </div>
+
+      <div style="margin: 10px;">
+          <select class="custom-select mr-sm-2" [disabled]="enableSortOrder" [(ngModel)]="sortOrder" [value]="asc" (change)="changeSortOrder();" >
+              <option  value='asc'>Ascending</option>
+              <option value='desc'>Descending</option>
+          </select>
+    </div>
+  </div>
+
+<div id="similarItems">
+      <div>
+          <div *ngFor="let data of similarData |slice:0:show let i=index">
+            <div class="card mt-2 flex-row flex-wrap" style="background-color:#1f1f1f">
+                  <div class="card-header border-0" *ngIf="data && data.imageURL">
+                      <a href={{data.imageURL}} target="_blank"><img src={{data.imageURL}} alt="image" height="150" width="150"></a>
+                  </div>
+                 <div class="card-body">
+                      <div class="card-text" *ngIf="data && data.viewItemURL"><a style="color: teal;" href="{{data && data.viewItemURL}}">{{data.productName}}</a></div>
+                      <div class="card-text" style="color: greenyellow;">Price: {{data.price}}</div>
+                      <div class="card-text" style="color: yellow;">Shipping Cost: ${{data.shippingCost}}</div>
+                      <div class="card-text" style="color: white;" >Days Left: ${{data.daysLeft}}</div>
+                 </div>
+          </div>
+          </div>
+          <div  style="text-align: center;">
+          <button class="btn btn-dark" style="background-color: #1f1f1f; margin: 10px;" *ngIf="(similarData.length >= 5) && show == 5" (click)="show = similarData.length">Show More</button>
+          </div>
+          <div  style="text-align: center;">
+          <button class="btn btn-dark" style="background-color: #1f1f1f; margin: 10px;" *ngIf ="show > 5" (click)="show = 5"> Show Less </button>
+          </div>
+</div>
+</div>
+</div>
+</body>
+</html>
