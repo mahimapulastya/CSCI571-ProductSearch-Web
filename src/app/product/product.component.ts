@@ -25,7 +25,8 @@ export class ProductComponent implements OnInit {
   display = 'none';
 
   getProductDetails() {
-    this.service.getEbayProductDetails().subscribe((data: {}) => {
+    const itemID = '132961484706';
+    this.service.getEbayProductDetails(itemID).subscribe((data: {}) => {
       this.itemDetails = data;
       let i = 0;
       try {

@@ -42,7 +42,8 @@ app.get('/searchItem', (req, res) => {
 })
 
 app.get('/itemDetails', (req, res) => {
-  itemID = req.query[itemID];
+  itemID = req.query["itemID"];
+  console.log(itemID);
   api_helper.make_API_call('http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=' + EbayAPIKey + '&siteid=0&version=967&ItemID='+ itemID +'&IncludeSelector=Description,Details,ItemSpecifics')
   .then(response => {
       res.json(response)

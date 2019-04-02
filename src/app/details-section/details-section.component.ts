@@ -9,8 +9,8 @@ import {TabItem} from '../tabs/tab-item';
 import {ProductComponent} from '../product/product.component';
 import {PhotosComponent} from '../photos/photos.component';
 import { from } from 'rxjs';
-import { SearchItem } from '../result-section/result-section.component';
 import {UserService} from '../user.service';
+import { SearchItem } from '../app.component';
 
 @Component({
   selector: 'app-details-section',
@@ -26,7 +26,6 @@ export class DetailsSectionComponent implements OnInit {
   public tabItems: TabItem[];
 
   ngOnInit() {
-    console.log(this.item);
     this.tabItems = this.tiservice.getTabItem();
     this.tabPaneItems = this.tpservice.getTabPanes();
   }

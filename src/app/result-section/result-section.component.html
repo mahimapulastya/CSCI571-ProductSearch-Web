@@ -28,7 +28,10 @@
     }
 </style>
 </head>
-<body>
+<body *ngIf="searchItem?.length > 0">
+   <div class="progress" >
+    <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
   <div id="searchresult" *ngIf = "!toggleDetailsSection" [@showSearchResultAnimation] >
   <button id="detailsButton" class="btn btn-light detailsbutton" [disabled] = "enableDetailsButton" (click) = "toggleDetailsDiv(0)">Details <i class="material-icons" style="float: right; vertical-align:middle">keyboard_arrow_right</i></button>
     <div>
@@ -71,7 +74,7 @@
         <button name="wishlistButton" id="wishlistButton" style = "float: right;" class="btn btn-light" ><i class="material-icons" style="float: right; vertical-align:middle">add_shopping_cart</i></button>
         <a  href="http://www.facebook.com/sharer.php?u={{searchItem[6].viewItemURL}}&quote=Buy {{searchItem[6].title}} + at + ${{searchItem[6].price}} + from link below"  target="_blank" id="fbButton" name="fbButton" style = "float: right; margin-right: 10px;"><img src="http://csci571.com/hw/hw8/Images/facebook.png" height="40px" width="40px"></a>
         </div>
-      <!-- <div>{{searchItem[index]}}</div> -->
+      <div>{{index}}</div>
       <app-details-section [item]= "searchItem[index]"></app-details-section>
     </div>
     </body>

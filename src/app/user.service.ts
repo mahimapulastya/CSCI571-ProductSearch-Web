@@ -87,8 +87,9 @@ export class UserService {
     );
   }
 
-  getEbayProductDetails(): Observable<EbayItemDetail> {
-    return this.http.get<EbayItemDetail>(this.apiURL + '/itemDetails')
+  getEbayProductDetails(itemID): Observable<EbayItemDetail> {
+    const detailsURL = this.apiURL + '/itemDetails' + '?itemID=' + itemID;
+    return this.http.get<EbayItemDetail>(detailsURL)
     .pipe(
       catchError(this.handleError)
     );
