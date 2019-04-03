@@ -4,16 +4,13 @@ import { UserService } from './user.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { debounceTime } from 'rxjs/operators';
 
-// tslint:disable-next-line: component-class-suffix
-export class SearchItem {
-  index: number;
-  image: string;
-  title: string;
-  price: string;
-  shipping: string;
-  zip: string;
-  seller: string;
-  viewItemURL: string;
+export class Params {
+  keyword: string;
+  category: string;
+  distance: number;
+  conditions: string[];
+  shippingOptions: string[];
+  zipCode: string;
 }
 
 @Component({
@@ -37,10 +34,8 @@ export class AppComponent implements OnInit {
   public showProgressBar: boolean;
   public distance: number;
   public customLocationDisable: boolean;
-  params: number;
-  public searchresult: any = [];
-  public searchItem: SearchItem[] = [];
-
+  params: Params;
+  paramsArray: any;
 
   constructor(private userService: UserService) {
   }
@@ -51,6 +46,7 @@ export class AppComponent implements OnInit {
     keyword: new FormControl('', Validators.required),
     zipcode: new FormControl('', Validators.required),
     categoryselect: new FormControl(''),
+    location: new FormControl('cur-loc'),
     newCategory: new FormControl(''),
     usedCategory: new FormControl(''),
     unspecifiedCategory: new FormControl(''),
@@ -96,61 +92,60 @@ export class AppComponent implements OnInit {
     document.getElementById('results').style.color = 'black';
   }
 
-  getSearchItem() {
-    // keyword,category,distance,conditions,shippingOptions,zipCode
-    this.userService.getEbayProducts('iphone').subscribe((data: {}) => {
-      this.searchresult = data;
-      let i = 0;
-      for (const item of this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item) {
-        this.searchItem[i] = new SearchItem();
-        this.searchItem[i].index = i + 1;
-        this.searchItem[i].image = item.galleryURL[0];
-        this.searchItem[i].title = item.title[0];
-        this.searchItem[i].price = '$' + item.sellingStatus[0].currentPrice[0].__value__;
-        const s: string = item.shippingInfo[0].shippingServiceCost[0].__value__;
-        if (s === '0.0') {
-          this.searchItem[i].shipping = 'Free Shipping';
-        } else {
-          this.searchItem[i].shipping = '$' + s;
-        }
-        this.searchItem[i].zip = item.postalCode[0];
-        this.searchItem[i].seller = item.sellerInfo[0].sellerUserName[0].toUpperCase();
-        this.searchItem[i].viewItemURL = item.viewItemURL[0];
-        i = i + 1;
-      }
-    });
-  }
-
   public onSubmit() {
     const formValue = this.userForm.value;
-    console.log('ddddddd  ' + this.distance);
-    this.params = this.distance;
-
     if (this.distance === null || this.distance === undefined) {
       this.distance = 10;
     }
 
-    if (formValue.newCategory !== '' && formValue.newCategory) {
-      this.conditionsArray.push('New');
-    }
-    if (formValue.usedCategory !== '' && formValue.usedCategory) {
-      this.conditionsArray.push('Used');
-    }
-    if (formValue.unspecifiedCategory !== '' && formValue.unspecifiedCategory) {
-      this.conditionsArray.push('Unspecified');
-    }
+    // if (formValue.newCategory !== '' && formValue.newCategory) {
+    //   this.conditionsArray[0] = 'New';
+    // }
+    // if (formValue.usedCategory !== '' && formValue.usedCategory) {
+    //   this.conditionsArray[1] = 'Used';
+    // }
+    // if (formValue.unspecifiedCategory !== '' && formValue.unspecifiedCategory) {
+    //   this.conditionsArray[2] = 'Unspecified';
+    // }
 
-    (formValue.localpickup !== '' && formValue.localpickup) ? this.shippingOptions.push('true') : this.shippingOptions.push('false');
-    (formValue.freeshipping !== '' && formValue.freeshipping) ? this.shippingOptions.push('true') : this.shippingOptions.push('false');
+    (formValue.newCategory !== '' && formValue.newCategory) ? this.conditionsArray[0] = 'New' : this.conditionsArray[0] = '';
+    (formValue.usedCategory !== '' && formValue.usedCategory) ? this.conditionsArray[1] = 'Used' : this.conditionsArray[1] = '';
+    // tslint:disable-next-line: max-line-length
+    (formValue.unspecifiedCategory !== '' && formValue.unspecifiedCategory) ? this.conditionsArray[2] = 'Unspecified' : this.conditionsArray[2] = '';
 
+    (formValue.localpickup !== '' && formValue.localpickup) ? this.shippingOptions[0] = 'true' : this.shippingOptions[0] = 'false';
+    (formValue.freeshipping !== '' && formValue.freeshipping) ? this.shippingOptions[1] = 'true' : this.shippingOptions[1] = 'false';
+
+    // console.log(formValue.location);
+    const testParamsArray1 = {
+      keyword: formValue.keyword,
+      category: formValue.categoryselect,
+      distance: this.distance,
+      condition: this.conditionsArray,
+      shipping: this.shippingOptions,
+      zip: formValue.zipcode
+      };
+
+    const testParamsArray2 = {
+      keyword: formValue.keyword,
+      category: formValue.categoryselect,
+      distance: this.distance,
+      condition: this.conditionsArray,
+      shippingOptions: this.shippingOptions,
+      zip: this.zip.zip
+      };
+
+    if (formValue.location === 'cur-loc') {
+      this.paramsArray = testParamsArray2;
+    } else if (formValue.location === 'custom-loc') {
+      this.paramsArray = testParamsArray2;
+    }
     this.submitted = true;
     if (this.userForm.invalid === true) {
       return;
     } else {
       this.registered = true;
     }
-
-    this.getSearchItem();
   }
 
   clear() {

@@ -33,7 +33,7 @@ export class SellerComponent implements OnInit {
 
   getShippingDetails(index: number) {
     // keyword,category,distance,conditions,shippingOptions,zipCode
-    this.service.getEbayProducts('iphone').subscribe((data: {}) => {
+    this.service.getEbayProducts('iphone', '10', '', [], [], '').subscribe((data: {}) => {
       this.searchresult = data;
       const details = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].sellerInfo[0];
       this.seln = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].sellerInfo[0].sellerUserName[0].toUpperCase();

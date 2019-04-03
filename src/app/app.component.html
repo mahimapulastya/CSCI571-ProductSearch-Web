@@ -135,10 +135,10 @@
       <label class="col-md-2 col-xs-2 keyword-label" for="distance" >From</label>
       <div class="col-md-6 col-sm-6">
           <div class="radio">
-          <label><input type="radio" name="curr-loc" checked>Current Location</label>
+          <label><input type="radio" formControlName="location" name="location" checked value="cur-loc" checked>Current Location</label>
           </div>
           <div class="radio">
-          <label><input type="radio" name="curr-loc">Other. Please specify zip code:</label>
+          <label><input type="radio" formControlName="location" name="location" value="custom-loc" >Other. Please specify zip code:</label>
           </div>
 
           <input class="col-md-6 col-xs-6 form-control-sm" type="text" formControlName = "zipcode" pattern="^\d{5}(-\d{4})?$" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
@@ -172,7 +172,7 @@
   </li>
 </ul>
 
-<app-result-section *ngIf="searchItem" [searchItem]="searchItem"></app-result-section>
+<app-result-section *ngIf="paramsArray" [params]="paramsArray"></app-result-section>
 <router-outlet></router-outlet>
 
 </body>

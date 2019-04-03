@@ -29,7 +29,7 @@ export class ShippingComponent implements OnInit {
 
   getShippingDetails(index: number) {
     // keyword,category,distance,conditions,shippingOptions,zipCode
-    this.service.getEbayProducts('iphone').subscribe((data: {}) => {
+    this.service.getEbayProducts('iphone', '10', '', [], [], '').subscribe((data: {}) => {
       this.searchresult = data;
       try {
       const details = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].shippingInfo[0];

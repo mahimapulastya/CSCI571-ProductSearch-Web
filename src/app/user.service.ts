@@ -62,25 +62,40 @@ export class UserService {
   }
 
   // keyword,category,distance,conditions,shippingOptions,zipCode
-  getEbayProducts(keyword): Observable<EbayItem[]> {
-    const productURL =  this.apiURL + '/searchItem' + '?keyword=' + keyword;
-    // productURL = productURL + '&category=' + category;
-    // productURL = productURL + '&distance=' + distance;
-    // productURL = productURL + '&postalCode=' + zipCode;
-    // if(shippingOptions[0] === 'true') {
-    //   productURL = productURL + '&localpickup=' + 'true';
-    // } else {
-    //   productURL = productURL + '&localpickup=' + 'false';
-    // }
-    // if(shippingOptions[1] === 'true') {
-    //   productURL = productURL + '&freeshipping=' + 'true';
-    // } else {
-    //   productURL = productURL + '&freeshipping=' + 'false';
-    // }
+  getEbayProducts(keyword, distance, category, conditions, shippingOptions, zip): Observable<EbayItem[]> {
+    let productURL =  this.apiURL + '/searchItem' + '?keyword=' + keyword;
+    productURL = productURL + '&category=' + category;
+    productURL = productURL + '&distance=' + distance;
+    productURL = productURL + '&postalCode=' + zip;
+    if (shippingOptions[0] === 'true') {
+      productURL = productURL + '&localpickup=' + 'true';
+    } else {
+      productURL = productURL + '&localpickup=' + 'false';
+    }
+    if (shippingOptions[1] === 'true') {
+      productURL = productURL + '&freeshipping=' + 'true';
+    } else {
+      productURL = productURL + '&freeshipping=' + 'false';
+    }
 
-    // for (var c in conditions) {
-    // }
+    if (conditions[0] === 'New') {
+      productURL = productURL + '&new=' + 'true';
+    } else {
+      productURL = productURL + '&new=' + 'false';
+    }
 
+    if (conditions[1] === 'Used') {
+      productURL = productURL + '&used=' + 'true';
+    } else {
+      productURL = productURL + '&used=' + 'false';
+    }
+
+    if (conditions[2] === 'Unspecified') {
+      productURL = productURL + '&unspecified=' + 'true';
+    } else {
+      productURL = productURL + '&unspecified=' + 'false';
+    }
+    console.log(productURL);
     return this.http.get<EbayItem[]>(productURL)
     .pipe(
       catchError(this.handleError)

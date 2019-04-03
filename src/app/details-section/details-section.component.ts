@@ -10,7 +10,8 @@ import {ProductComponent} from '../product/product.component';
 import {PhotosComponent} from '../photos/photos.component';
 import { from } from 'rxjs';
 import {UserService} from '../user.service';
-import { SearchItem } from '../app.component';
+import { SearchItem } from '../result-section/result-section.component';
+
 
 @Component({
   selector: 'app-details-section',
