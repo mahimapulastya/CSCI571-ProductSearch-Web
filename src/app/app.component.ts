@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angula
 import { UserService } from './user.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { debounceTime } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export class Params {
   keyword: string;
@@ -36,8 +37,9 @@ export class AppComponent implements OnInit {
   public customLocationDisable: boolean;
   params: Params;
   paramsArray: any;
+  disableZipField = true;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   ngOnInit() {
@@ -53,8 +55,32 @@ export class AppComponent implements OnInit {
     localpickup: new FormControl(''),
     freeshipping: new FormControl(''),
     });
+
+    if (this.userForm.value.location === 'cur-loc') {
+      this.disableZipField = true;
+      this.userForm.get('zipcode').clearValidators();
+      this.userForm.get('zipcode').updateValueAndValidity();
+      this.userForm.get('zipcode').markAsUntouched();
+    }
     this.getPostalCodes();
     this.getZipCode();
+    this.toggleCurrentCustom();
+  }
+
+  toggleCurrentCustom() {
+    this.userForm.get('location').valueChanges.subscribe(location => {
+      if (location === 'custom-loc') {
+          this.disableZipField = false;
+          this.userForm.get('zipcode').markAsUntouched();
+          this.userForm.get('zipcode').setValidators([Validators.required]);
+          this.userForm.get('zipcode').updateValueAndValidity();
+      } else if (location === 'cur-loc') {
+          this.disableZipField = true;
+          this.userForm.get('zipcode').clearValidators();
+          this.userForm.get('zipcode').updateValueAndValidity();
+          this.userForm.get('zipcode').markAsUntouched();
+      }
+  });
   }
 
   getPostalCodes() {
@@ -81,6 +107,7 @@ export class AppComponent implements OnInit {
     document.getElementById('wishlist').style.backgroundColor = 'white';
     document.getElementById('results').style.color = 'white';
     document.getElementById('wishlist').style.color = 'black';
+    this.router.navigate(['/searchresult'], {queryParams: {params: JSON.stringify(this.paramsArray)}});
   }
 
   switchToWishList() {
@@ -97,17 +124,6 @@ export class AppComponent implements OnInit {
     if (this.distance === null || this.distance === undefined) {
       this.distance = 10;
     }
-
-    // if (formValue.newCategory !== '' && formValue.newCategory) {
-    //   this.conditionsArray[0] = 'New';
-    // }
-    // if (formValue.usedCategory !== '' && formValue.usedCategory) {
-    //   this.conditionsArray[1] = 'Used';
-    // }
-    // if (formValue.unspecifiedCategory !== '' && formValue.unspecifiedCategory) {
-    //   this.conditionsArray[2] = 'Unspecified';
-    // }
-
     (formValue.newCategory !== '' && formValue.newCategory) ? this.conditionsArray[0] = 'New' : this.conditionsArray[0] = '';
     (formValue.usedCategory !== '' && formValue.usedCategory) ? this.conditionsArray[1] = 'Used' : this.conditionsArray[1] = '';
     // tslint:disable-next-line: max-line-length
@@ -117,6 +133,7 @@ export class AppComponent implements OnInit {
     (formValue.freeshipping !== '' && formValue.freeshipping) ? this.shippingOptions[1] = 'true' : this.shippingOptions[1] = 'false';
 
     // console.log(formValue.location);
+
     const testParamsArray1 = {
       keyword: formValue.keyword,
       category: formValue.categoryselect,
@@ -140,15 +157,26 @@ export class AppComponent implements OnInit {
     } else if (formValue.location === 'custom-loc') {
       this.paramsArray = testParamsArray2;
     }
+
+    // this.
+    // userForm.
+    // valueChanges.
+    // subscribe(form => {
+    //   sessionStorage.setItem('form', this.paramsArray);
+    // });
+
     this.submitted = true;
     if (this.userForm.invalid === true) {
       return;
     } else {
       this.registered = true;
     }
+
+    this.router.navigate(['/searchresult'], {queryParams: {params: JSON.stringify(this.paramsArray)}});
   }
 
   clear() {
     this.switchToResult();
+    this.router.navigateByUrl('/');
   }
 }

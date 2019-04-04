@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EbayItemDetail, UserService } from '../user.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -18,14 +19,14 @@ export class NameValue {
 })
 export class ProductComponent implements OnInit {
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService, private route: ActivatedRoute) { }
   public itemDetails: any;
   public images: string[] = [];
   public nameValue: NameValue[] = [];
   display = 'none';
+  public itemID: string;
 
-  getProductDetails() {
-    const itemID = '132961484706';
+  getProductDetails(itemID) {
     this.service.getEbayProductDetails(itemID).subscribe((data: {}) => {
       this.itemDetails = data;
       let i = 0;
@@ -52,7 +53,11 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getProductDetails();
+    this.route.queryParams.subscribe(params => {
+      this.itemID = JSON.parse(params['item']).itemID;
+    });
+
+    this.getProductDetails(this.itemID);
   }
 
 }

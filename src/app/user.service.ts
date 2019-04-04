@@ -23,6 +23,7 @@ export class EbayItemDetail {
 @Injectable()
 export class UserService {
   responseStatus: number;
+  public allProductsData;
   constructor(
     private http: HttpClient
   ) {}
@@ -61,7 +62,6 @@ export class UserService {
     );
   }
 
-  // keyword,category,distance,conditions,shippingOptions,zipCode
   getEbayProducts(keyword, distance, category, conditions, shippingOptions, zip): Observable<EbayItem[]> {
     let productURL =  this.apiURL + '/searchItem' + '?keyword=' + keyword;
     productURL = productURL + '&category=' + category;
@@ -95,7 +95,7 @@ export class UserService {
     } else {
       productURL = productURL + '&unspecified=' + 'false';
     }
-    console.log(productURL);
+
     return this.http.get<EbayItem[]>(productURL)
     .pipe(
       catchError(this.handleError)
@@ -110,17 +110,18 @@ export class UserService {
     );
   }
 
-  getGoogleImages(): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/googlePhotos')
+  getGoogleImages(productTitle): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/googlePhotos' + '?productTitle=' + productTitle)
     .pipe(
       catchError(this.handleError)
     );
   }
 
-  getSimilarProducts(): Observable<any> {
-    return this.http.get<any>(this.apiURL + '/similarItems')
+  getSimilarProducts(itemID): Observable<any> {
+    return this.http.get<any>(this.apiURL + '/similarItems' + '?itemID=' + itemID)
     .pipe(
       catchError(this.handleError)
     );
   }
+
 }

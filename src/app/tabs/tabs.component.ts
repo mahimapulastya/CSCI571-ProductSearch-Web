@@ -7,6 +7,7 @@ import {TabsDirective} from './tabs.directive';
 import {TabItemService} from './tab-item-service';
 import {TabPaneService} from './tab-pane-service';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,11 +19,15 @@ export class TabsComponent implements OnInit {
 
   @Input() tabItems: TabItem[];
   @Input() tabPanes: TabPaneItem[];
+  @Input() searchItemString: string;
 
   @ViewChild(TabsDirective) tab: TabsDirective;
-  constructor(public componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(public componentFactoryResolver: ComponentFactoryResolver, private router: Router) { }
 
   public onTabClicked(tabItem: TabItem): void {
+    this.router.navigate(['/itemDetails'], {
+      queryParams: {item: this.searchItemString, index: this.tabItems.indexOf(tabItem)}
+    });
     this.setActiveTabItem(tabItem);
   }
 
@@ -32,7 +37,6 @@ export class TabsComponent implements OnInit {
     });
 
     tabItem.isSelected = true;
-
     this.loadTab(this.tabItems.indexOf(tabItem));
   }
 
@@ -45,6 +49,7 @@ export class TabsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(JSON.parse(this.searchItemString));
     this.loadTab(0);
   }
 }

@@ -37,7 +37,7 @@
                       <a href={{data.imageURL}} target="_blank"><img src={{data.imageURL}} alt="image" height="150" width="150"></a>
                   </div>
                  <div class="card-body">
-                      <div class="card-text" *ngIf="data && data.viewItemURL"><a style="color: teal;" href="{{data && data.viewItemURL}}">{{data.productName}}</a></div>
+                      <div class="card-text" *ngIf="data && data.viewItemURL"><a style="color: teal; cursor: pointer;" href="{{data && data.viewItemURL}}">{{data.productName}}</a></div>
                       <div class="card-text" style="color: greenyellow;">Price: {{data.price}}</div>
                       <div class="card-text" style="color: yellow;">Shipping Cost: ${{data.shippingCost}}</div>
                       <div class="card-text" style="color: white;" >Days Left: ${{data.daysLeft}}</div>

@@ -2,18 +2,22 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../user.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FormGroup } from '@angular/forms';
-import { Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // tslint:disable-next-line: component-class-suffix
 export class SearchItem {
   index: number;
   image: string;
+  shortTitle: string;
   title: string;
   price: string;
   shipping: string;
   zip: string;
   seller: string;
   viewItemURL: string;
+  itemID: string;
+  sellerInfo: any;
+  shippingInfo: any;
 }
 
 @Component({
@@ -41,22 +45,33 @@ export class SearchItem {
 })
 export class ResultSectionComponent implements OnInit {
 
-  @Input() params: Params;
   public toggleDetailsSection = false;
   public enableDetailsButton;
   public index: number;
 
   public searchresult: any = [];
   public searchItem: SearchItem[] = [];
+  public noResults = false;
+  public showSearchResults = false;
+  public params: any;
+  public pageEntries = 0;
+  public ack = '';
+  public showProgressBar: boolean;
+  public test: string;
 
   toggleDetailsDiv(index: number) {
     this.index = index;
-    console.log(this.index);
     this.enableDetailsButton = false;
     this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
   }
 
-  constructor(private userService: UserService) {
+  goToDetails(searchItem: any) {
+    this.router.navigate(['/itemDetails'], {
+      queryParams: {item: JSON.stringify(searchItem)}
+    });
+  }
+
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
   }
 
   // keyword,category,distance,conditions,shippingOptions,zip
@@ -69,7 +84,26 @@ export class ResultSectionComponent implements OnInit {
         this.searchItem[i] = new SearchItem();
         this.searchItem[i].index = i + 1;
         this.searchItem[i].image = item.galleryURL[0];
+        this.searchItem[i].itemID = item.itemId[0];
+        if (item.title[0].length > 35) {
+          const st = item.title[0].substring(0, 36);
+          if (st.charAt(36) === ' ') {
+            this.searchItem[i].shortTitle = '...';
+          } else {
+            let k = 35;
+            for (k = 35; ; k--) {
+              if (st.charAt(k) === ' ') {
+                break;
+              }
+            }
+            this.searchItem[i].shortTitle = st.substring(0, k) + '...';
+          }
+        } else {
+          this.searchItem[i].shortTitle = item.title[0];
+        }
         this.searchItem[i].title = item.title[0];
+
+
         this.searchItem[i].price = '$' + item.sellingStatus[0].currentPrice[0].__value__;
         const s: string = item.shippingInfo[0].shippingServiceCost[0].__value__;
         if (s === '0.0') {
@@ -80,8 +114,27 @@ export class ResultSectionComponent implements OnInit {
         this.searchItem[i].zip = item.postalCode[0];
         this.searchItem[i].seller = item.sellerInfo[0].sellerUserName[0].toUpperCase();
         this.searchItem[i].viewItemURL = item.viewItemURL[0];
+
+
+
+
+
         i = i + 1;
       }
+      // this.showSearchResults = true;
+      this.noResults = !(this.searchItem.length > 0);
+      this.showProgressBar = !(this.searchItem.length > 0);
+      console.log(this.noResults);
+      if (this.searchresult.findItemsAdvancedResponse[0].paginationOutput !== undefined) {
+        this. pageEntries = this.searchresult.findItemsAdvancedResponse[0].paginationOutput[0].totalEntries[0];
+      }
+      this.ack = this.searchresult.findItemsAdvancedResponse[0].ack[0];
+      if (this.ack === 'Success') {
+        this.showProgressBar = false;
+      }
+    } else {
+      this.showProgressBar = false;
+      this.noResults = true;
     }
     });
   }
@@ -94,17 +147,13 @@ export class ResultSectionComponent implements OnInit {
   //   }
 
   ngOnInit() {
+    this.test = 'Hello';
     this.enableDetailsButton = true;
-
-    // this.params.valueChanges.pipe().subscribe(data => {
-    // // this.userService.getSearchItem(data.).subscribe(response => {
-    // //     this.products = response;
-    // // });
-    // console.log(data);
-    // });
-    // tslint:disable-next-line: max-line-length
-    console.log(this.params);
-  // tslint:disable-next-line: max-line-length
-    this.getSearchItem(this.params.keyword, this.params.distance, this.params.category, this.params.condition, this.params.shippingOptions, this.params.zip);
+    this.route.queryParams.subscribe(data => {
+      this.showProgressBar = true;
+      this.params = JSON.parse(data['params']);
+      // tslint:disable-next-line: max-line-length
+      this.getSearchItem(this.params.keyword, this.params.distance, this.params.category, this.params.condition, this.params.shippingOptions, this.params.zip);
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 
 // tslint:disable-next-line: component-class-suffix
@@ -21,7 +22,7 @@ export class SimilarItems {
 })
 export class SimilaritemsComponent implements OnInit {
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService, private route: ActivatedRoute) { }
   public similarItemDetails: any;
   public similarData: any[] = [];
   public show = 5;
@@ -30,9 +31,10 @@ export class SimilaritemsComponent implements OnInit {
   public sortOrder = 'asc';
   public orderType = '0';
   public testArray: any[] = [];
+  public itemID: string;
 
-  getSimiliarItemDetails() {
-    this.service.getSimilarProducts().subscribe((data: {}) => {
+  getSimiliarItemDetails(itemID) {
+    this.service.getSimilarProducts(itemID).subscribe((data: {}) => {
       this.similarItemDetails = data;
       const items = this.similarItemDetails.getSimilarItemsResponse.itemRecommendations.item;
       if (items === undefined || items.length === 0) {
@@ -203,8 +205,10 @@ export class SimilaritemsComponent implements OnInit {
 }
 
 ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.itemID = JSON.parse(params['item']).itemID;
+    });
     this.enableSortOrder = true;
-    this.getSimiliarItemDetails();
-    this.sortSimilarItems(4, 'desc');
+    this.getSimiliarItemDetails(this.itemID);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
+import { ActivatedRoute } from '@angular/router';
 
 export class KeyValue {
   key: string;
@@ -18,7 +19,7 @@ export class KeyValue {
 })
 export class ShippingComponent implements OnInit {
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService, private route: ActivatedRoute) { }
   public shippingDetails: KeyValue[] = [];
   public searchresult: any = [];
   public shippingServiceCost: string;
@@ -81,5 +82,4 @@ export class ShippingComponent implements OnInit {
   ngOnInit() {
     this.getShippingDetails(0);
   }
-
 }

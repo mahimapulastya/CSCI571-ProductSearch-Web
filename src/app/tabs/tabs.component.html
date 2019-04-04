@@ -15,10 +15,11 @@
   </head>
     <body>
 <div>
+  <div style="height: 30px;"></div>
   <nav>
     <ul class="nav nav-tabs justify-content-end" >
       <li *ngFor= "let tabItem of tabItems" class="nav-item" [class.active]="tabItem.isSelected">
-        <a class="nav-link black-text" (click)= "onTabClicked(tabItem)" href="#">{{tabItem.text}}</a>
+        <a class="nav-link black-text" (click)= "onTabClicked(tabItem)">{{tabItem.text}}</a>
       </li>
     </ul>
     </nav>

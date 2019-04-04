@@ -96,7 +96,6 @@ export class SellerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getShippingDetails(3);
+    this.getShippingDetails(2);
   }
-
 }

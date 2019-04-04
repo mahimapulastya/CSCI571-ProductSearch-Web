@@ -5,17 +5,35 @@
   .listbutton {
       float: left;
     }
-  .nav-link.active {
-    color: white;
-    background: #1a1a1a;
+
+  .nav-tabs > li.active > a,
+        .nav-tabs > li.active > a:focus{
+            color: white;
+            background-color:#1a1a1a;
+        }
+
+        .black-text {
+          color: black;
   }
 
 </style>
 </head>
 <body>
-<div class="result-section">
-  <div style="height:15px"></div>
-  <app-tabs [tabPanes]="tabPaneItems" [tabItems]="tabItems" ></app-tabs>
+    <div class="progress" *ngIf="!(searchItem) || !(searchItem.title)" style="margin-top: 10px;" >
+        <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="mt-4">
+        <h5 class="text-center">{{searchItem.title}}</h5>
+      </div>
+  <div style="height: 15px;"></div>
+  <div>
+    <button id="listButton" name="listButton" class="btn btn-light listbutton" (click)="toggleDetailsDiv1();" ><i class="material-icons" style="vertical-align:middle">keyboard_arrow_left</i>List</button>
+    <button name="wishlistButton" id="wishlistButton" style = "float: right;" class="btn btn-light" ><i class="material-icons" style="float: right; vertical-align:middle">add_shopping_cart</i></button>
+    <a  href="http://www.facebook.com/sharer.php?u={{searchItem.viewItemURL}}&quote=Buy {{searchItem.title}} + at + ${{searchItem.price}} + from link below"  target="_blank" id="fbButton" name="fbButton" style = "float: right; margin-right: 10px;"><img src="http://csci571.com/hw/hw8/Images/facebook.png" height="40px" width="40px"></a>
+  </div>
+<div class="result-section" *ngIf="searchItem">
+  <div style="height:70px"></div>
+  <app-tabs [tabPanes]="tabPaneItems" [tabItems]="tabItems" [searchItemString] = "searchItemString"></app-tabs>
 </div>
 </body>
 </html>

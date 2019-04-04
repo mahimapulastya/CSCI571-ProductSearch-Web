@@ -141,7 +141,7 @@
           <label><input type="radio" formControlName="location" name="location" value="custom-loc" >Other. Please specify zip code:</label>
           </div>
 
-          <input class="col-md-6 col-xs-6 form-control-sm" type="text" formControlName = "zipcode" pattern="^\d{5}(-\d{4})?$" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
+          <input class="col-md-6 col-xs-6 form-control-sm" type="text" [readonly]="disableZipField" formControlName = "zipcode" pattern="^\d{5}(-\d{4})?$" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let zip of products.postalCodes" [value]="zip.postalCode">{{zip.postalCode}}</mat-option>
             </mat-autocomplete>
@@ -165,14 +165,13 @@
 <div style="height:15px;"></div>
  <ul class="nav nav-pills justify-content-center">
   <li class="nav-item">
-    <a class="nav-link active" id = "results" style="background-color: black; color: white" (click)= "switchToResult();" routerLink="/searchresult" >Results</a>
+    <a class="nav-link active" id = "results" style="background-color: black; color: white" routerLink="/searchresult" (click)= "switchToResult();">Results</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id = "wishlist" style="color: black;" routerLink="/wishlist" (click)= "switchToWishList();">Wish List</a>
   </li>
 </ul>
 
-<app-result-section *ngIf="paramsArray" [params]="paramsArray"></app-result-section>
 <router-outlet></router-outlet>
 
 </body>

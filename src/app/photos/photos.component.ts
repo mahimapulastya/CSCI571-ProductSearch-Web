@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
+import { ActivatedRoute } from '@angular/router';
 
 export class GoogleImage {
   public link: string;
@@ -14,13 +15,15 @@ export class GoogleImage {
 })
 export class PhotosComponent implements OnInit {
 
-  constructor(private service: UserService) { }
+  constructor(private service: UserService, private route: ActivatedRoute) { }
 
   public apidata: any;
   public googlePhotos: any[] = [];
+  public productTitle: string;
 
-  getGoogleImages() {
-    this.service.getGoogleImages().subscribe((data: {}) => {
+  getGoogleImages(productTitle) {
+    console.log(productTitle);
+    this.service.getGoogleImages(productTitle).subscribe((data: {}) => {
       this.apidata = data;
       let i = 0;
       try {
@@ -34,6 +37,10 @@ export class PhotosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getGoogleImages();
+    this.route.queryParams.subscribe(params => {
+      this.productTitle = JSON.parse(params['item']).title;
+    });
+    console.log(this.productTitle);
+    this.getGoogleImages(this.productTitle);
   }
 }

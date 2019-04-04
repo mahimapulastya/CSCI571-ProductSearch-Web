@@ -78,10 +78,7 @@ app.get('/searchItem', (req, res) => {
   }
   }
 
-
-
   searchURL = searchURL + '&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo';
-  console.log(searchURL);
   api_helper.make_API_call(searchURL)
   .then(response => {
       res.json(response)
@@ -93,7 +90,8 @@ app.get('/searchItem', (req, res) => {
 
 app.get('/itemDetails', (req, res) => {
   itemID = req.query["itemID"];
-  api_helper.make_API_call('http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=' + EbayAPIKey + '&siteid=0&version=967&ItemID='+ itemID +'&IncludeSelector=Description,Details,ItemSpecifics')
+  detailsURL = 'http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=' + EbayAPIKey + '&siteid=0&version=967&ItemID='+ itemID +'&IncludeSelector=Description,Details,ItemSpecifics'
+  api_helper.make_API_call(detailsURL)
   .then(response => {
       res.json(response)
   })
@@ -104,7 +102,12 @@ app.get('/itemDetails', (req, res) => {
 
 
 app.get('/similarItems', (req, res) => {
-  api_helper.make_API_call2('https://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=MahimaPu-Myproduc-PRD-9e46bc082-d04201c4&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=152770330173&maxResults=20')
+  try {
+  itemID = req.query["itemID"];
+  } catch(e) {
+    itemID = '';
+  }
+  api_helper.make_API_call2('https://svcs.ebay.com/MerchandisingService?OPERATION-NAME=getSimilarItems&SERVICE-NAME=MerchandisingService&SERVICE-VERSION=1.1.0&CONSUMER-ID=' + EbayAPIKey + '&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&itemId=' + itemID + '&maxResults=20')
   .then(response => {
       res.json(JSON.parse(response))
   })
@@ -114,7 +117,10 @@ app.get('/similarItems', (req, res) => {
 })
 
 app.get('/googlePhotos', (req, res) => {
-  api_helper.make_API_call('https://www.googleapis.com/customsearch/v1?q=%22Apple%20iPhone%207%20-%2032GB%20-%20Black%20(Unlocked)%20A1660%20(CDMA%20+GSM)%22&cx=005205816040132596365:jrgtgdslooo&imgSize=huge&imgType=news&num=8&searchType=image&key=AIzaSyD8hL2p3msJzzIY3dLaTtcQuQcCE7AAUIc')
+  productTitle = req.query["productTitle"];
+  imageURL = 'https://www.googleapis.com/customsearch/v1?q=' + encodeURI(productTitle) +'&cx=005205816040132596365:jrgtgdslooo&imgSize=huge&imgType=news&num=8&searchType=image&key=AIzaSyD8hL2p3msJzzIY3dLaTtcQuQcCE7AAUIc';
+  console.log(imageURL);
+  api_helper.make_API_call(imageURL)
   .then(response => {
       res.json(response)
   })
