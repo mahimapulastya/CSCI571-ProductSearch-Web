@@ -1,7 +1,7 @@
 const express = require('express')
 const api_helper = require('./backend/app')
 const app = express()
-const port = 3000
+const port = 8080
 const EbayAPIKey= 'MahimaPu-Myproduc-PRD-9e46bc082-d04201c4';
 
 app.use(function (req, res, next) {
@@ -119,7 +119,6 @@ app.get('/similarItems', (req, res) => {
 app.get('/googlePhotos', (req, res) => {
   productTitle = req.query["productTitle"];
   imageURL = 'https://www.googleapis.com/customsearch/v1?q=' + encodeURI(productTitle) +'&cx=005205816040132596365:jrgtgdslooo&imgSize=huge&imgType=news&num=8&searchType=image&key=AIzaSyD8hL2p3msJzzIY3dLaTtcQuQcCE7AAUIc';
-  console.log(imageURL);
   api_helper.make_API_call(imageURL)
   .then(response => {
       res.json(response)

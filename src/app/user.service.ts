@@ -31,7 +31,8 @@ export class UserService {
     private http: HttpClient
   ) {}
 
-  apiURL = 'http://localhost:3000';
+  apiURL = 'http://localhost:8080';
+  // apiURL = 'https://myweb-hw8-backend.appspot.com';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -98,8 +99,7 @@ export class UserService {
     } else {
       productURL = productURL + '&unspecified=' + 'false';
     }
-
-
+    console.log(productURL);
     return this.http.get<EbayItem[]>(productURL)
     .pipe(
       catchError(this.handleError)

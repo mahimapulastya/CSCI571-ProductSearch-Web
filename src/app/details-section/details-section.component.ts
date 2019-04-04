@@ -13,12 +13,35 @@ import {UserService} from '../user.service';
 import { SearchItem } from '../result-section/result-section.component';
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
+import { trigger, transition, animate, style } from '@angular/animations';
 
 
 @Component({
   selector: 'app-details-section',
   templateUrl: './details-section.component.html',
-  styleUrls: ['./details-section.component.css']
+  styleUrls: ['./details-section.component.css'],
+  animations: [
+    trigger('showDetailsAnimation', [
+      transition('void => *',  [
+        style({transform: 'translateX(100%)'}),
+        animate('1s')
+      ]),
+      transition('void => *',  [
+        style({transform: 'translateX(100%)'}),
+        animate('1s')
+      ])
+    ]),
+    trigger('showSearchResultAnimation', [
+      transition('void => *',  [
+        style({transform: 'translateX(-100%)'}),
+        animate('1s')
+      ]),
+      transition('* => void',  [
+        style({transform: 'translateX(100%)'}),
+        animate('1s')
+      ])
+    ])
+  ]
 })
 export class DetailsSectionComponent implements OnInit {
 

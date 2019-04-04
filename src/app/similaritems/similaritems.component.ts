@@ -205,10 +205,6 @@ export class SimilaritemsComponent implements OnInit {
 }
 
 ngOnInit() {
-    // this.route.queryParams.subscribe(params => {
-    //   this.itemID = JSON.parse(params['item']).itemID;
-    // });
-
     this.itemID = this.service.selectedProduct.itemId[0];
     this.enableSortOrder = true;
     this.getSimiliarItemDetails(this.itemID);

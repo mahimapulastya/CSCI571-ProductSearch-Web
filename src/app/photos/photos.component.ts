@@ -20,7 +20,6 @@ export class PhotosComponent implements OnInit {
   public productTitle: string;
 
   getGoogleImages(productTitle) {
-    console.log(productTitle);
     this.service.getGoogleImages(productTitle).subscribe((data: {}) => {
       this.apidata = data;
       let i = 0;
@@ -36,7 +35,6 @@ export class PhotosComponent implements OnInit {
 
   ngOnInit() {
     this.productTitle = this.service.selectedProduct.title[0];
-    console.log(this.productTitle);
     this.getGoogleImages(this.productTitle);
   }
 }

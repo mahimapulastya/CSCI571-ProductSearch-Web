@@ -21,7 +21,6 @@ export class ShippingComponent implements OnInit {
 
   constructor(private service: UserService, private route: ActivatedRoute) { }
   public shippingDetails: KeyValue[] = [];
-  public shippingServiceCost: string;
 
   isString(val) { return typeof val === 'string'; }
 

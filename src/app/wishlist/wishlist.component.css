@@ -1,0 +1,13 @@
+.detailsbutton {
+  float: right;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.searchbutton {
+  color: black;
+  background: white;
+  display: inline;
+  align-items: center;
+  margin: 12px 50px 12px 0px;
+}

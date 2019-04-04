@@ -43,7 +43,6 @@ export class ProductComponent implements OnInit {
       try {
       this.images = this.itemDetails.Item.PictureURL;
       this.outData = this.itemDetails.Item;
-      console.log(this.outData);
       try {
         this.subtitle = this.outData.Subtitle;
       } catch (e) {

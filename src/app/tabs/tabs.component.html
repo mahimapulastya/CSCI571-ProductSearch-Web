@@ -19,7 +19,15 @@
   <nav>
     <ul class="nav nav-tabs justify-content-end" >
       <li *ngFor= "let tabItem of tabItems" class="nav-item" [class.active]="tabItem.isSelected">
+        <div *ngIf="tabItem.text !== 'Similar Products' else similar">
         <a class="nav-link black-text" (click)= "onTabClicked(tabItem)">{{tabItem.text}}</a>
+        </div>
+
+        <!-- *ngIf="isBoolean(sd.value) && sd.value; then right else wrong" -->
+        <ng-template #similar>
+            <a class="nav-link black-text" (click)= "onTabClicked(tabItem)"><span class="mobile">Related Products</span><span class = "web">Similar Products</span></a>
+        </ng-template>
+
       </li>
     </ul>
     </nav>

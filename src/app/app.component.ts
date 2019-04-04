@@ -155,7 +155,7 @@ export class AppComponent implements OnInit {
     if (formValue.location === 'cur-loc') {
       this.paramsArray = testParamsArray2;
     } else if (formValue.location === 'custom-loc') {
-      this.paramsArray = testParamsArray2;
+      this.paramsArray = testParamsArray1;
     }
 
     // this.
@@ -172,6 +172,7 @@ export class AppComponent implements OnInit {
       this.registered = true;
     }
 
+    console.log(this.paramsArray);
     this.router.navigate(['/searchresult'], {queryParams: {params: JSON.stringify(this.paramsArray)}});
   }
 

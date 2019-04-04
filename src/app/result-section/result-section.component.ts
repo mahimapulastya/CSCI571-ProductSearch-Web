@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { WishlistService } from '../wishlist.service';
 
 // tslint:disable-next-line: component-class-suffix
 export class SearchItem {
@@ -27,16 +28,16 @@ export class SearchItem {
   animations: [
     trigger('showDetailsAnimation', [
       transition('void => *',  [
-        style({transform: 'translateX(100%)'}),
-        animate('1s')
+        // style({transform: 'translateX(100%)'}),
+        // animate('1s')
       ]),
       transition('void => *',  [
       ])
     ]),
     trigger('showSearchResultAnimation', [
       transition('void => *',  [
-        style({transform: 'translateX(-100%)'}),
-        animate('1s')
+        // style({transform: 'translateX(-100%)'}),
+        // animate('1s')
       ]),
       transition('* => void',  [
       ])
@@ -59,18 +60,38 @@ export class ResultSectionComponent implements OnInit {
   public showProgressBar: boolean;
   public test: string;
 
-  toggleDetailsDiv(index: number) {
-    this.index = index;
-    this.enableDetailsButton = false;
-    this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
+
+  // toggleDetailsDiv(index: number) {
+  //   this.index = index;
+  //   this.enableDetailsButton = false;
+  //   this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
+  // }
+
+  toggleDetailsDiv() {
+    console.log('go to details');
   }
 
   goToDetails(ind: number) {
     this.router.navigate(['/itemDetails']);
+    this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
+    this.enableDetailsButton = false;
     this.userService.selectedProduct = this.userService.allProducts[ind];
   }
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, private wishlistservice: WishlistService,
+              private route: ActivatedRoute, private router: Router) {
+  }
+
+  addToWishList(item: SearchItem) {
+    this.wishlistservice.addItemtoWishList(item);
+  }
+
+  isPresent(item) {
+    return this.wishlistservice.isPresent(item.itemID);
+  }
+
+  removeFromWishList() {
+
   }
 
   // keyword,category,distance,conditions,shippingOptions,zip
@@ -105,7 +126,7 @@ export class ResultSectionComponent implements OnInit {
         this.searchItem[i].title = item.title[0];
 
 
-        this.searchItem[i].price = '$' + item.sellingStatus[0].currentPrice[0].__value__;
+        this.searchItem[i].price =  item.sellingStatus[0].currentPrice[0].__value__;
         const s: string = item.shippingInfo[0].shippingServiceCost[0].__value__;
         if (s === '0.0') {
           this.searchItem[i].shipping = 'Free Shipping';
@@ -144,14 +165,13 @@ export class ResultSectionComponent implements OnInit {
   ngOnInit() {
     this.enableDetailsButton = true;
     this.route.queryParams.subscribe(data => {
-      if (data['params'] === undefined) {
+      if (data.params === undefined) {
         this.showProgressBar = false;
       } else {
-        this.params = JSON.parse(data['params']);
+        this.params = JSON.parse(data.params);
         // tslint:disable-next-line: max-line-length
         this.getSearchItem(this.params.keyword, this.params.distance, this.params.category, this.params.condition, this.params.shippingOptions, this.params.zip);
       }
-      console.log(data['params']);
     });
   }
 }
