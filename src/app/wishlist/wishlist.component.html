@@ -37,7 +37,7 @@
               <td>{{item?.price}}</td>
               <td>{{item?.shipping}}</td>
               <td>{{item?.seller}}</td>
-              <button (click)="removeFromWishList();" class="btn btn-default searchbutton">
+              <button (click)="removeItemID(item.itemID);" class="btn btn-default searchbutton">
                   <i class="material-icons" style="float:left; color:rgb(184, 133, 6)">remove_shopping_cart</i>
                 </button>
           </tr>

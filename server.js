@@ -2,7 +2,7 @@ const express = require('express')
 const api_helper = require('./backend/app')
 const app = express()
 const port = 8080
-const EbayAPIKey= 'MahimaPu-Myproduc-PRD-9e46bc082-d04201c4';
+const EbayAPIKey= 'XXXXX';
 
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -79,6 +79,7 @@ app.get('/searchItem', (req, res) => {
   }
 
   searchURL = searchURL + '&outputSelector(0)=SellerInfo&outputSelector(1)=StoreInfo';
+  console.log(searchURL);
   api_helper.make_API_call(searchURL)
   .then(response => {
       res.json(response)

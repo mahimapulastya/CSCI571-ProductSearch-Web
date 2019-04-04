@@ -26,12 +26,17 @@ export class WishlistService {
     return this.myStorage.getItem(id);
   }
 
+  removeFromWishList(itemID) {
+    console.log(itemID);
+    this.myStorage.removeItem(itemID);
+  }
+
   getAllWishListItems() {
     var wishlist: SearchItem[] = [];
     const keys = Object.keys(this.myStorage);
     let i = keys.length;
 
-    while ( i-- ) {
+    while (i-- ) {
       console.log(keys[i]);
       wishlist.push( JSON.parse(this.myStorage.getItem(keys[i])));
     }

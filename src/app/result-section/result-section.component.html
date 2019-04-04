@@ -21,6 +21,19 @@
         margin: 12px 50px 12px 0px;
   }
 
+  .blackclass {
+        color: black;
+        background: white;
+  }
+
+  .ngx-pagination .current {
+    background: black;
+  }
+
+  li.current.ng-star-inserted {
+    background: black;
+  }
+
   .detailsbutton {
       float: right;
       margin: 15px;
@@ -40,7 +53,7 @@
     </div>
 
   <div id="searchresult" *ngIf = "(searchItem.length > 0 ) &&!toggleDetailsSection && !noResults" [@showSearchResultAnimation] >
-  <button id="detailsButton" class="btn btn-light detailsbutton" [disabled] = "enableDetailsButton" (click) = "toggleDetailsDiv();">Details <i class="material-icons" style="float: right; vertical-align:middle">keyboard_arrow_right</i></button>
+  <button id="detailsButton" class="btn btn-light detailsbutton" [disabled] = "!checkDetail()" (click) = "toggleDetailsDiv();">Details <i class="material-icons" style="float: right; vertical-align:middle">keyboard_arrow_right</i></button>
     <div>
         <div>
           <h2 class="subheader"></h2>
@@ -55,9 +68,9 @@
                   <th>Seller</th>
                   <th>Wish List</th>
               </thead>
-          <tr *ngFor="let item of searchItem | paginate: { itemsPerPage: 10, currentPage: p };">
+          <tr *ngFor="let item of searchItem | paginate: { itemsPerPage: 10, currentPage: p };" [class.table-dark]="isLastSelected(item.index - 1)">
               <td>{{item.index}}</td>
-              <td><a href={{item.image}}><img src= {{item.image}} alt="image" height="100" width="100"></a></td>
+              <td><a href={{item.image}} target="_blank"><img src= {{item.image}} alt="image" height="100" width="100"></a></td>
               <td><div class="text-primary" style="cursor: pointer;">
                 <div matTooltip="{{item?.title}}">  <a (click)="goToDetails(item.index-1);">{{item?.shortTitle}}</a> </div>
               </div></td>
@@ -65,10 +78,10 @@
               <td>{{item?.shipping}}</td>
               <td>{{item?.zip}}</td>
               <td>{{item?.seller}}</td>
-              <td><button *ngIf="isPresent(item)" (click)="removeFromWishList()" class="btn btn-default searchbutton">
+              <td *ngIf="isPresent(item)"><button (click)="removeItemID(item.itemID);" class="btn btn-default searchbutton">
                 <i class="material-icons" style="float:left; color:rgb(184, 133, 6)">remove_shopping_cart</i>
               </button></td>
-              <td><button *ngIf="!isPresent(item)" (click)="addToWishList(item)" class="btn btn-light">
+              <td *ngIf="!isPresent(item)"><button (click)="addToWishList(item)" class="btn btn-light searchbutton">
                 <i class="material-icons" style="float:left">add_shopping_cart</i>
               </button></td>
           </tr>

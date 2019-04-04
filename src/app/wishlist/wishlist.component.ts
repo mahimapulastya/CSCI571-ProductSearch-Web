@@ -19,7 +19,7 @@ export class WishlistComponent implements OnInit {
   showWishlistDetails() {
   }
 
-  totalShopping() {
+  totalShopping(wishlistItems) {
     this.totalPrice = 0;
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < this.wishlistItems.length; i++) {
@@ -29,19 +29,23 @@ export class WishlistComponent implements OnInit {
     this.totalPrice = parseFloat(this.totalPrice.toFixed(2));
   }
 
-  removeFromWishList() {
-    console.log('Remove');
-  }
-
   goToDetails(ind: number) {
     this.router.navigate(['/itemDetails']);
-    // this.enableDetailsButton = false;
     this.userService.selectedProduct = this.userService.allProducts[ind];
   }
 
-  ngOnInit() {
+  removeItemID(itemID) {
+    console.log('Remove' + itemID);
+    this.service.removeFromWishList(itemID);
+    this.wishlistItems = [];
     this.wishlistItems = this.service.getAllWishListItems();
-    this.totalShopping();
-  }
+    this.totalShopping(this.wishlistItems);
+    // tslint:disable-next-line: prefer-for-of
+}
+
+ngOnInit() {
+  this.wishlistItems = this.service.getAllWishListItems();
+  this.totalShopping(this.wishlistItems);
+}
 
 }

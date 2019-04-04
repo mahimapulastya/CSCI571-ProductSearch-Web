@@ -5,6 +5,22 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+
+
+const pattern = /^[0-9]{5}$/;
+export class ZipValid extends Validators {
+    static zipValid(formcontrol: FormControl) {
+    // tslint:disable-next-line: max-line-length
+        if (formcontrol.value && formcontrol.value.trim().length > 0 && pattern.test(formcontrol.value)) {
+            return null;
+        }
+        return {
+          x :
+          'b' };
+    }
+}
+
+
 export class Params {
   keyword: string;
   category: string;
@@ -72,7 +88,7 @@ export class AppComponent implements OnInit {
       if (location === 'custom-loc') {
           this.disableZipField = false;
           this.userForm.get('zipcode').markAsUntouched();
-          this.userForm.get('zipcode').setValidators([Validators.required]);
+          this.userForm.get('zipcode').setValidators([Validators.required, ZipValid.zipValid]);
           this.userForm.get('zipcode').updateValueAndValidity();
       } else if (location === 'cur-loc') {
           this.disableZipField = true;
@@ -139,7 +155,7 @@ export class AppComponent implements OnInit {
       category: formValue.categoryselect,
       distance: this.distance,
       condition: this.conditionsArray,
-      shipping: this.shippingOptions,
+      shippingOptions: this.shippingOptions,
       zip: formValue.zipcode
       };
 
@@ -178,6 +194,9 @@ export class AppComponent implements OnInit {
 
   clear() {
     this.switchToResult();
+    this.userForm.get('zipcode').clearValidators();
+    this.userService.lastSelectedIndex = -1;
+    this.userService.isDetailsButtonDisabled = "true";
     this.router.navigateByUrl('/');
   }
 }

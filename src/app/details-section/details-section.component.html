@@ -27,8 +27,10 @@
       </div>
   <div style="height: 15px;"></div>
   <div>
-    <button id="listButton" name="listButton" class="btn btn-light listbutton" (click)="toggleDetailsDiv1();" ><i class="material-icons" style="vertical-align:middle">keyboard_arrow_left</i>List</button>
-    <button name="wishlistButton" id="wishlistButton" style = "float: right;" class="btn btn-light" ><i class="material-icons" style="float: right; vertical-align:middle">add_shopping_cart</i></button>
+    <button id="listButton" name="listButton" class="btn btn-light listbutton" (click)="toggleDetailsDiv2();" ><i class="material-icons" style="vertical-align:middle">keyboard_arrow_left</i>List</button>
+    <button *ngIf="!isPresent()" name="wishlistButton" id="wishlistButton" (click)="addToWishList();" style = "float: right;" class="btn btn-light" ><i class="material-icons" style="float: right; vertical-align:middle">add_shopping_cart</i></button>
+    <button *ngIf="isPresent()" name="wishlistButton" id="wishlistButton" (click)="removeItemID();" style = "float: right; color:rgb(184, 133, 6);" class="btn btn-light" ><i class="material-icons" style="float: right; vertical-align:middle">remove_shopping_cart</i></button>
+
     <a  href="http://www.facebook.com/sharer.php?u={{searchItem.viewItemURL}}&quote=Buy {{searchItem.title}} + at + ${{searchItem.sellingStatus[0].currentPrice[0].__value__}} + from link below"  target="_blank" id="fbButton" name="fbButton" style = "float: right; margin-right: 10px;"><img src="http://csci571.com/hw/hw8/Images/facebook.png" height="40px" width="40px"></a>
   </div>
 <div class="result-section" *ngIf="searchItem">

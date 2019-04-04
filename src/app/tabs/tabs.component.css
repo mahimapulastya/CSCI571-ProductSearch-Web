@@ -1,12 +1,19 @@
 .mobile{
   display: none;
 }
+@media (max-width: 420px){
+  .mobile{
+      display: block;
+  }
+  .web{
+      display: none;
+  }
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus{
+    color: white;
+    background-color:#1a1a1a;
+}
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-  .web {
-    display: 'none';
-  }
-  .mobile {
-    display: 'block'
-  }
+.black-text {
+  color: black;
 }

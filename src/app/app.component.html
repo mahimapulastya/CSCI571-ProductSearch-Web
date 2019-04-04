@@ -1,65 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Homework 8</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"  crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"  crossorigin="anonymous"></script>
-<style type="text/css">
-    .product-search {
-        text-align: center;
-        margin: 20px;
-    }
-
-    .form-group.asterisk .keyword-label:after {
-    content:"*";
-    color:red;
-    }
-
-    .searchbutton {
-        color: black;
-        background: white;
-        display: inline;
-        align-items: center;
-        margin: 12px 50px 12px 0px;
-    }
-
-    input.ng-invalid.ng-touched {
-    border: 1px solid red;
-   }
-
-
-    input[type="checkbox"] {
-    margin-right: 5px;
-    margin-left: 5px;
-    }
-
-    input[type="radio"]  {
-      margin-right: 5px;
-      margin-left: 5px;
-    }
-
-    .align-middle {
-        vertical-align: middle;
-    }
-
-    body {
-      width: 80%;
-      margin: auto;
-    }
-
-</style>
-</head>
-<body>
 <div style="color:white; background: #171702;">
   <hr><h2  class="product-search">Product Search</h2><hr>
 <form  [formGroup]="userForm" name = "form" (ngSubmit)= "onSubmit()" class="container" #formData="ngForm" >
@@ -143,7 +82,7 @@
           <label><input type="radio" formControlName="location" name="location" value="custom-loc" >Other. Please specify zip code:</label>
           </div>
 
-          <input class="col-md-6 col-xs-6 form-control-sm" type="text" [readonly]="disableZipField" formControlName = "zipcode" pattern="^\d{5}(-\d{4})?$" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
+          <input class="col-md-6 col-xs-6 form-control-sm" type="text" [readonly]="disableZipField" formControlName = "zipcode" [ngClass] = "{'is-invalid': userForm.get('zipcode').touched && userForm.get('zipcode').invalid }"  class="form-control" id="zip-code" placeholder="" type="text" matInput formControlName = "zipcode" [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let zip of products.postalCodes" [value]="zip.postalCode">{{zip.postalCode}}</mat-option>
             </mat-autocomplete>
@@ -151,7 +90,7 @@
           <div *ngIf ="userForm.get('zipcode').hasError('required')" class="invalid-feedback">
               Please enter a zipcode.
             </div>
-          <div class="invalid-feedback" *ngIf="userForm.get('zipcode').touched && userForm.get('zipcode').hasError('pattern')" style="display: none">Invalid zipcode</div>
+          <!-- <div class="invalid-feedback" *ngIf="userForm.get('zipcode').touched && userForm.get('zipcode').hasError('pattern')" style="display: none">Invalid zipcode</div> -->
         </div>
       </div>
 
@@ -175,5 +114,3 @@
 </ul>
 
 <router-outlet></router-outlet>
-</body>
-</html>

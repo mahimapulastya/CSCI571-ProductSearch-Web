@@ -1,0 +1,41 @@
+.product-search {
+  text-align: center;
+  margin: 20px;
+}
+
+.form-group.asterisk .keyword-label:after {
+content:"*";
+color:red;
+}
+
+.searchbutton {
+  color: black;
+  background: white;
+  display: inline;
+  align-items: center;
+  margin: 12px 50px 12px 0px;
+}
+
+input.ng-invalid.ng-touched {
+border: 1px solid red;
+}
+
+
+input[type="checkbox"] {
+margin-right: 5px;
+margin-left: 5px;
+}
+
+input[type="radio"]  {
+margin-right: 5px;
+margin-left: 5px;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+body {
+width: 80%;
+margin: auto;
+}

@@ -48,7 +48,6 @@ export class ProductComponent implements OnInit {
       } catch (e) {
 
       }
-      console.log(this.images);
       } catch (e) {}
     });
   }

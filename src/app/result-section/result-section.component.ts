@@ -47,7 +47,7 @@ export class SearchItem {
 export class ResultSectionComponent implements OnInit {
 
   public toggleDetailsSection = false;
-  public enableDetailsButton;
+  public disabledetail;
   public index: number;
 
   public searchresult: any = [];
@@ -59,6 +59,7 @@ export class ResultSectionComponent implements OnInit {
   public ack = '';
   public showProgressBar: boolean;
   public test: string;
+  public lastSelected = -1;
 
 
   // toggleDetailsDiv(index: number) {
@@ -67,15 +68,33 @@ export class ResultSectionComponent implements OnInit {
   //   this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
   // }
 
+
   toggleDetailsDiv() {
-    console.log('go to details');
+    this.router.navigateByUrl('/itemDetails');
+    console.log('toggle to details to details');
   }
 
   goToDetails(ind: number) {
     this.router.navigate(['/itemDetails']);
     this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
-    this.enableDetailsButton = false;
     this.userService.selectedProduct = this.userService.allProducts[ind];
+    this.userService.lastSelectedIndex = ind;
+    this.userService.isDetailsButtonDisabled = "false";
+    this.disabledetail = this.userService.isDetailsButtonDisabled;
+    console.log(this.disabledetail);
+  }
+
+  isLastSelected(index) {
+    return (this.userService.lastSelectedIndex === index);
+  }
+
+  checkDetail(): boolean {
+    console.log("hereeeeee" + this.userService.lastSelectedIndex);
+    if(this.userService.lastSelectedIndex !== -1) {
+      console.log("trrrrrrrr");
+      return true;
+    }
+    return false;
   }
 
   constructor(private userService: UserService, private wishlistservice: WishlistService,
@@ -90,8 +109,10 @@ export class ResultSectionComponent implements OnInit {
     return this.wishlistservice.isPresent(item.itemID);
   }
 
-  removeFromWishList() {
 
+  removeItemID(itemID) {
+    console.log('Remove' + itemID);
+    this.wishlistservice.removeFromWishList(itemID);
   }
 
   // keyword,category,distance,conditions,shippingOptions,zip
@@ -100,7 +121,8 @@ export class ResultSectionComponent implements OnInit {
     this.userService.getEbayProducts(keyword, distance, category, conditions, shippingOptions, zip).subscribe((data: {}) => {
       this.searchresult = data;
       let i = 0;
-      if (this.searchresult.findItemsAdvancedResponse[0].searchResult[0]['@count'] !== '0') {
+      if (this.searchresult.findItemsAdvancedResponse[0].ack[0] === 'Success' &&
+       this.searchresult.findItemsAdvancedResponse[0].searchResult[0]['@count'] !== '0') {
       this.userService.allProducts = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item;
       for (const item of this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item) {
         this.searchItem[i] = new SearchItem();
@@ -163,7 +185,7 @@ export class ResultSectionComponent implements OnInit {
   //   }
 
   ngOnInit() {
-    this.enableDetailsButton = true;
+    this.disabledetail = this.userService.isDetailsButtonDisabled;
     this.route.queryParams.subscribe(data => {
       if (data.params === undefined) {
         this.showProgressBar = false;
