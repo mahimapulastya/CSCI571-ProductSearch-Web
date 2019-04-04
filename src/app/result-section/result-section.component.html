@@ -29,7 +29,7 @@
 </style>
 </head>
 <body>
-   <div class="progress" *ngIf="showProgressBar || !(searchItem.length > 0 || noResults || ack === 'Success' )" style="margin-top: 10px;" >
+   <div class="progress" *ngIf="showProgressBar" style="margin-top: 10px;" >
     <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
   <div *ngIf="noResults || (ack == 'Failure')" id="noResult">
@@ -59,7 +59,7 @@
               <td>{{item.index}}</td>
               <td><a href={{item.image}}><img src= {{item.image}} alt="image" height="100" width="100"></a></td>
               <td><div class="text-primary" style="cursor: pointer;">
-                <div matTooltip="{{item?.title}}">  <a (click)="goToDetails(item);">{{item?.shortTitle}}</a> </div>
+                <div matTooltip="{{item?.title}}">  <a (click)="goToDetails(item.index-1);">{{item?.shortTitle}}</a> </div>
               </div></td>
               <td>{{item?.price}}</td>
               <td>{{item?.shipping}}</td>

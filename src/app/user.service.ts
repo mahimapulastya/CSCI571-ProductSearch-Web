@@ -23,7 +23,10 @@ export class EbayItemDetail {
 @Injectable()
 export class UserService {
   responseStatus: number;
-  public allProductsData;
+  public similarProducts;
+
+  public allProducts;
+  public selectedProduct;
   constructor(
     private http: HttpClient
   ) {}
@@ -96,6 +99,7 @@ export class UserService {
       productURL = productURL + '&unspecified=' + 'false';
     }
 
+
     return this.http.get<EbayItem[]>(productURL)
     .pipe(
       catchError(this.handleError)
@@ -123,5 +127,4 @@ export class UserService {
       catchError(this.handleError)
     );
   }
-
 }

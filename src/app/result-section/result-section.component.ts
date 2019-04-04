@@ -65,10 +65,9 @@ export class ResultSectionComponent implements OnInit {
     this.toggleDetailsSection = this.toggleDetailsSection ? false : true;
   }
 
-  goToDetails(searchItem: any) {
-    this.router.navigate(['/itemDetails'], {
-      queryParams: {item: JSON.stringify(searchItem)}
-    });
+  goToDetails(ind: number) {
+    this.router.navigate(['/itemDetails']);
+    this.userService.selectedProduct = this.userService.allProducts[ind];
   }
 
   constructor(private userService: UserService, private route: ActivatedRoute, private router: Router) {
@@ -76,10 +75,12 @@ export class ResultSectionComponent implements OnInit {
 
   // keyword,category,distance,conditions,shippingOptions,zip
   getSearchItem(keyword, distance, category, conditions, shippingOptions, zip) {
+    this.showProgressBar = true;
     this.userService.getEbayProducts(keyword, distance, category, conditions, shippingOptions, zip).subscribe((data: {}) => {
       this.searchresult = data;
       let i = 0;
       if (this.searchresult.findItemsAdvancedResponse[0].searchResult[0]['@count'] !== '0') {
+      this.userService.allProducts = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item;
       for (const item of this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item) {
         this.searchItem[i] = new SearchItem();
         this.searchItem[i].index = i + 1;
@@ -114,17 +115,11 @@ export class ResultSectionComponent implements OnInit {
         this.searchItem[i].zip = item.postalCode[0];
         this.searchItem[i].seller = item.sellerInfo[0].sellerUserName[0].toUpperCase();
         this.searchItem[i].viewItemURL = item.viewItemURL[0];
-
-
-
-
-
         i = i + 1;
       }
       // this.showSearchResults = true;
       this.noResults = !(this.searchItem.length > 0);
       this.showProgressBar = !(this.searchItem.length > 0);
-      console.log(this.noResults);
       if (this.searchresult.findItemsAdvancedResponse[0].paginationOutput !== undefined) {
         this. pageEntries = this.searchresult.findItemsAdvancedResponse[0].paginationOutput[0].totalEntries[0];
       }
@@ -147,13 +142,16 @@ export class ResultSectionComponent implements OnInit {
   //   }
 
   ngOnInit() {
-    this.test = 'Hello';
     this.enableDetailsButton = true;
     this.route.queryParams.subscribe(data => {
-      this.showProgressBar = true;
-      this.params = JSON.parse(data['params']);
-      // tslint:disable-next-line: max-line-length
-      this.getSearchItem(this.params.keyword, this.params.distance, this.params.category, this.params.condition, this.params.shippingOptions, this.params.zip);
+      if (data['params'] === undefined) {
+        this.showProgressBar = false;
+      } else {
+        this.params = JSON.parse(data['params']);
+        // tslint:disable-next-line: max-line-length
+        this.getSearchItem(this.params.keyword, this.params.distance, this.params.category, this.params.condition, this.params.shippingOptions, this.params.zip);
+      }
+      console.log(data['params']);
     });
   }
 }

@@ -25,6 +25,8 @@ export class ProductComponent implements OnInit {
   public nameValue: NameValue[] = [];
   display = 'none';
   public itemID: string;
+  public subtitle: string;
+  public outData;
 
   getProductDetails(itemID) {
     this.service.getEbayProductDetails(itemID).subscribe((data: {}) => {
@@ -40,6 +42,14 @@ export class ProductComponent implements OnInit {
     } catch (e) {}
       try {
       this.images = this.itemDetails.Item.PictureURL;
+      this.outData = this.itemDetails.Item;
+      console.log(this.outData);
+      try {
+        this.subtitle = this.outData.Subtitle;
+      } catch (e) {
+
+      }
+      console.log(this.images);
       } catch (e) {}
     });
   }
@@ -53,11 +63,6 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.itemID = JSON.parse(params['item']).itemID;
-    });
-
-    this.getProductDetails(this.itemID);
+    this.getProductDetails(this.service.selectedProduct.itemId[0]);
   }
-
 }

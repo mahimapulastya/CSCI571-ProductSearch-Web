@@ -4,8 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 
 export class GoogleImage {
   public link: string;
-  public cols: number;
-  public rows: number;
 }
 
 @Component({
@@ -37,9 +35,7 @@ export class PhotosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.productTitle = JSON.parse(params['item']).title;
-    });
+    this.productTitle = this.service.selectedProduct.title[0];
     console.log(this.productTitle);
     this.getGoogleImages(this.productTitle);
   }

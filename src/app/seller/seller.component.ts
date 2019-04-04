@@ -31,12 +31,9 @@ export class SellerComponent implements OnInit {
   public seln: string;
   constructor(private service: UserService) { }
 
-  getShippingDetails(index: number) {
-    // keyword,category,distance,conditions,shippingOptions,zipCode
-    this.service.getEbayProducts('iphone', '10', '', [], [], '').subscribe((data: {}) => {
-      this.searchresult = data;
-      const details = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].sellerInfo[0];
-      this.seln = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].sellerInfo[0].sellerUserName[0].toUpperCase();
+  getSellerDetails(data: any) {
+      const details = data.sellerInfo[0];
+      this.seln = data.sellerInfo[0].sellerUserName[0].toUpperCase();
       try {
         if (details.feedbackScore[0] !== null) {
           const score = Number(details.feedbackScore[0]);
@@ -52,7 +49,8 @@ export class SellerComponent implements OnInit {
       }
       try {
         if (details.positiveFeedbackPercent[0] !== null) {
-          const percentage = details.positiveFeedbackPercent[0];
+          let percentage = details.positiveFeedbackPercent[0];
+          if (percentage === '100.0') { percentage = '100'; }
           this.sellerInfo.push(new KeyValue('Popularity', percentage));
         }
       } catch (e) {
@@ -77,25 +75,24 @@ export class SellerComponent implements OnInit {
       }
 
       try {
-        if (this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].storeInfo[0].storeName[0] !== null) {
-          const storeName = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].storeInfo[0].storeName[0];
+        if (data.storeInfo[0].storeName[0] !== null) {
+          const storeName = data.storeInfo[0].storeName[0];
           this.sellerInfo.push(new KeyValue('Store Name', storeName));
         }
       } catch (e) {
 
       }
       try {
-        if (this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].storeInfo[0].storeURL[0] !== null) {
-          const storelink = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].storeInfo[0].storeURL[0];
+        if (data.storeInfo[0].storeURL[0] !== null) {
+          const storelink = data.storeInfo[0].storeURL[0];
           this.sellerInfo.push(new KeyValue('Buy Product At', storelink));
         }
       } catch (e) {
 
       }
-    });
-  }
+    }
 
-  ngOnInit() {
-    this.getShippingDetails(2);
+ngOnInit() {
+    this.getSellerDetails(this.service.selectedProduct);
   }
 }

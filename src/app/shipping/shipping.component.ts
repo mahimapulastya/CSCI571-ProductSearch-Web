@@ -21,19 +21,15 @@ export class ShippingComponent implements OnInit {
 
   constructor(private service: UserService, private route: ActivatedRoute) { }
   public shippingDetails: KeyValue[] = [];
-  public searchresult: any = [];
   public shippingServiceCost: string;
 
   isString(val) { return typeof val === 'string'; }
 
   isBoolean(val) { return typeof val === 'boolean'; }
 
-  getShippingDetails(index: number) {
-    // keyword,category,distance,conditions,shippingOptions,zipCode
-    this.service.getEbayProducts('iphone', '10', '', [], [], '').subscribe((data: {}) => {
-      this.searchresult = data;
+  getShippingDetails(data: any) {
       try {
-      const details = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].shippingInfo[0];
+      const details = data.shippingInfo[0];
       try {
         if (details.shippingServiceCost[0].__value__ !== null) {
           // tslint:disable-next-line: max-line-length
@@ -70,16 +66,15 @@ export class ShippingComponent implements OnInit {
       } catch (e) {}
 
       try {
-        if (this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].returnsAccepted !== null) {
-          const r = this.searchresult.findItemsAdvancedResponse[0].searchResult[0].item[index].returnsAccepted[0] === 'true' ? true : false;
+        if (data.returnsAccepted !== null) {
+          const r = data.returnsAccepted[0] === 'true' ? true : false;
           this.shippingDetails.push(new KeyValue('Return Accepted', r));
         }
       } catch (e) {}
     } catch (e) {
     }
-    });
   }
   ngOnInit() {
-    this.getShippingDetails(0);
+    this.getShippingDetails(this.service.selectedProduct);
   }
 }
